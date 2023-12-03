@@ -12,8 +12,10 @@ import java.util.Date;
 public class ExperienceDto {
     @NonNull
     public Long idUser;
+    public Long idExperience;
     public Date startDate;
     public Date endDate;
     public String positionTitle;
     public String companyName;
+    public String companyLogo;
 }

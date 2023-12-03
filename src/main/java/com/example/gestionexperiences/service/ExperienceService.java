@@ -3,8 +3,8 @@ package com.example.gestionexperiences.service;
 import com.example.gestionexperiences.dao.IExperienceDao;
 import com.example.gestionexperiences.dto.EmployeDto;
 import com.example.gestionexperiences.model.Experience;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.webjars.NotFoundException;
 
@@ -13,20 +13,21 @@ import java.util.Optional;
 
 @Service
 public class ExperienceService implements IExperienceService {
-
+    private final Environment environment;
     private final IExperienceDao experienceDao;
     private final RestTemplate restTemplate;
 
 
-    ExperienceService(IExperienceDao ed, RestTemplate restTemplate){
+    ExperienceService(Environment environment, IExperienceDao ed, RestTemplate restTemplate){
+        this.environment = environment;
         this.experienceDao = ed;
         this.restTemplate = restTemplate;
     }
 
 
     public boolean doesEmployeeExist(Long employeeId) {
-
-        String employeeServiceUrl = "http://localhost:8080/api/user/employee/" + employeeId;
+        String employeeServiceApi = environment.getProperty("EMPLOYEES_API");
+        String employeeServiceUrl = employeeServiceApi + '/' + employeeId;
         EmployeDto employe = restTemplate.getForObject(employeeServiceUrl, EmployeDto.class);
         if(employe == null) return false;
         return true;
@@ -46,11 +47,13 @@ public class ExperienceService implements IExperienceService {
     }
 
     @Override
+    public List<Experience> getEmployeeExperiences(Long id) {
+        return this.experienceDao.getEmployeeExperiences(id);
+    }
+
+    @Override
     public Optional<Experience> getExperience(Long id) {
-
         return this.experienceDao.getExperience(id);
-
-
     }
 
     @Override

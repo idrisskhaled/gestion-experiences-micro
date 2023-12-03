@@ -17,14 +17,11 @@ import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 public class ExperienceController implements IExperienceController {
 
     private final IExperienceService ExperienceService;
-
     private final ModelMapper mapper;
-
-
 
     @Override
     public ExperienceDto createExperience(ExperienceDto experienceDto) {
@@ -46,6 +43,12 @@ public class ExperienceController implements IExperienceController {
     @Override
     public ExperienceDto getOneExperience(Long id) {
         return mapper.map(ExperienceService.getExperience(id), ExperienceDto.class);
+    }
+
+    @Override
+    public List<ExperienceDto> getEmployeeExperiences(Long id) {
+        return this.ExperienceService.getEmployeeExperiences(id).stream().map(experience -> mapper.map(experience,ExperienceDto.class))
+                .collect(Collectors.toList());
     }
 
     @Override

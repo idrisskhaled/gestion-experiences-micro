@@ -13,4 +13,5 @@ public interface IExperienceDao {
     void removeExperience(Long id);
     void removeAllExperience();
     List<Experience> getAllExperience();
+    List<Experience> getEmployeeExperiences(Long id);
 }

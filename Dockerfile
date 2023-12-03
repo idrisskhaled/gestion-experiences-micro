@@ -1,6 +1,6 @@
-#Stage 1
+# Stage 1
 # initialize build and set base image for first stage
-FROM maven:3.6.3-adoptopenjdk-15 as stage1
+FROM maven:3.8.4-openjdk-11 AS stage1
 # speed up Maven JVM a bit
 ENV MAVEN_OPTS="-XX:+TieredCompilation -XX:TieredStopAtLevel=1"
 # set working directory
@@ -13,9 +13,10 @@ RUN mvn dependency:go-offline
 COPY ./src ./src
 # compile the source code and package it in a jar file
 RUN mvn clean install -D maven.test.skip=true
-#Stage 2
+
+# Stage 2
 # set base image for second stage
-FROM adoptopenjdk/openjdk15
+FROM adoptopenjdk:11-jre-hotspot
 # set deployment directory
 WORKDIR /opt/gestion-experiences
 # copy over the built artifact from the maven image
@@ -25,4 +26,4 @@ COPY --from=stage1 /opt/gestion-experiences/target/gestion-experiences-0.0.1-SNA
 EXPOSE 8080
 
 # Command to run the application
-CMD ["java", "-jar", "gestion-employes-0.0.1-SNAPSHOT.jar"]
+CMD ["java", "-jar", "gestion-experiences-0.0.1-SNAPSHOT.jar"]

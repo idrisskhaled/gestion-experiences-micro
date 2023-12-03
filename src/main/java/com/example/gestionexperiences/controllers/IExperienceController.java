@@ -20,6 +20,9 @@ public interface IExperienceController {
     @GetMapping("/{id}")
     ExperienceDto getOneExperience(@PathVariable Long id);
 
+    @GetMapping("/employee/{id}")
+    List<ExperienceDto> getEmployeeExperiences(@PathVariable Long id);
+
     @PutMapping("/{id}")
     ExperienceDto updateOneExperience(@RequestBody @Valid ExperienceDto experienceDto);
 

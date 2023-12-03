@@ -1,10 +1,13 @@
 package com.example.gestionexperiences.model;
 
 import lombok.*;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+
 import javax.persistence.*;
 import java.util.Date;
 
 @Data
+@EnableAutoConfiguration
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -33,4 +36,6 @@ public class Experience extends AbstractBaseEntity {
     @Column(name = "company_name")
     private String companyName;
 
+    @Column(name = "company_logo", columnDefinition = "TEXT")
+    private String companyLogo;
 }

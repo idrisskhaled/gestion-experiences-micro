@@ -54,4 +54,9 @@ public class ExperienceDao implements IExperienceDao {
     public List<Experience> getAllExperience() {
         return this.experienceRepository.findAll();
     }
+
+    @Override
+    public List<Experience> getEmployeeExperiences(Long id) {
+        return this.experienceRepository.findAllByIdUser(id);
+    }
 }
